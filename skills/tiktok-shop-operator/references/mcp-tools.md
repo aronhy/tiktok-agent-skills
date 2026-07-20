@@ -9,6 +9,7 @@
 
 - [字幕 MCP](#字幕-mcp)
 - [通用 MCP](#通用-mcp)
+- [可选账号 MCP（creator_profile / creator_videos）](#可选账号-mcpcreator_profile--creator_videos)
 - [通用参数类型](#通用参数类型)
 - [达人查询](#creator_search达人查询)
 - [视频查询](#video_search视频查询)
@@ -37,6 +38,17 @@ Endpoint：`https://mcp.kolsprite.com/universal/mcp`
 | `video_search` | 视频搜索与筛选 | `/api/video/search` |
 | `product_search` | 商品搜索与销量分析 | `/api/product/search` |
 | `shop_search` | 店铺搜索与评分查询 | `/api/shop/search` |
+
+## 可选账号 MCP（`creator_profile` / `creator_videos`）
+
+`creator_profile` 与 `creator_videos` 是面向任意公开账号诊断的**可选能力**，不属于上表已经确认的 KSS MCP 工具。连接的 MCP server 实际暴露 schema 后才能调用；调用前必须检查工具是否存在并读取其实时参数、返回字段、分页与限额说明。不得为它们编造 endpoint 路径、参数名或固定字段。
+
+| 工具 | 预期语义输出 | 使用与降级 |
+| --- | --- | --- |
+| `creator_profile` | 公开账号资料：达人 ID、Handle、昵称、简介、头像、地区、认证状态、粉丝数、关注数、累计获赞、视频数、账号链接，以及可用的店铺或商品关联。 | 实时 schema 支持时优先使用主页 URL，其次 Handle；不存在、失败、为空或关键字段不足时，读取公开浏览器主页。 |
+| `creator_videos` | 公开视频列表：视频 ID、链接、标题/描述、发布时间、时长、播放、点赞、评论、分享、标签、达人信息，以及可用的商品、店铺、销量和销售额。 | 实时 schema 支持时优先使用已验证达人 ID，其次 Handle；若支持分页，按实时规则收集至默认最近 50 条可取得公开视频。工具不可用或数据不足时，读取公开浏览器视频页。 |
+
+浏览器降级只读取页面可见信息。遇到登录、验证码、反爬或访问限制时停止，并记录“读取失败”或“未公开”；不得把浏览器数据写成 MCP 数据，也不得把缺失字段补为零或推测。账号诊断还应记录每项数据的来源、样本范围、获取时间、停止原因和可信度。
 
 ### 通用参数类型
 

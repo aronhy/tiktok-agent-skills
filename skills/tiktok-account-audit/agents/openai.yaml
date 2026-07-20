@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok 账号诊断"
+  short_description: "读取公开账号与视频，生成结果前置的运营诊断报告及行动建议。"
+  default_prompt: "使用 $tiktok-account-audit 分析这个公开 TikTok 账号并生成运营诊断报告。"
