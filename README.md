@@ -1,14 +1,17 @@
 # TikTok Agent Skills
 
-> 通过 Codex + KSS MCP，用自然语言完成 TikTok Shop 的选品、店铺分析、爆款视频发现、达人匹配、字幕提取和行动方案生成。
+> 通过 Codex + KSS MCP，用自然语言完成 TikTok Shop 商品运营和公开账号增长研究，并把可追溯的数据证据转成行动方案。
 
-这个项目把 TikTok Shop 运营中反复进行的数据查询和分析流程，整理成一个可以被 Agent 直接执行的 Skill。你不需要记住 MCP 工具名和参数，只需要描述业务目标，Agent 就会选择工具、组织查询、整理结果并给出下一步建议。
+这个项目把 TikTok 运营中反复进行的数据查询、账号诊断和策略规划，整理成可被 Agent 直接执行的 Skills。你不需要记住 MCP 工具名和参数，只需要描述业务目标；Agent 会选择合适的 Skill、组织查询、标记数据限制并给出下一步建议。
 
-## 完整运营闭环
+## 两条完整运营闭环
 
 ```text
-选品 → 找店铺 → 找爆款视频 → 找达人 → 提取字幕 → 生成行动方案
+商品运营：选品 → 店铺 → 视频 → 达人 → 字幕 → 行动方案
+账号增长：账号链接 → 账号诊断 → 类目研究 → 差距匹配 → 30 天计划
 ```
+
+两条闭环可以独立使用，也可以由增长计划串联：先诊断一个公开账号，再研究目标市场中的目标类目，最后生成受证据和已知资源约束的 30 天计划。
 
 例如，当你提供一个商品或选品方向后，Agent 可以：
 
@@ -19,25 +22,22 @@
 5. 提取重点视频字幕，拆解开头钩子、卖点、证明方式和 CTA。
 6. 汇总数据证据，形成选品、内容和达人合作行动方案。
 
-## 这是什么
+## Skill 目录
 
-仓库目前包含一个核心 Skill：
+| Skill | 何时使用 |
+| --- | --- |
+| [`tiktok-shop-operator`](skills/tiktok-shop-operator/SKILL.md) | 需要围绕商品、店铺、带货视频、达人和字幕完成选品研究或商品运营行动方案时使用。 |
+| [`tiktok-account-audit`](skills/tiktok-account-audit/SKILL.md) | 提供公开 TikTok 账号主页链接，需要诊断账号、竞品、内容表现或增长机会时使用。 |
+| [`tiktok-category-strategy`](skills/tiktok-category-strategy/SKILL.md) | 已明确目标类目和国家/地区，需要研究市场、商品、店铺、内容、达人与进入策略时使用。 |
+| [`tiktok-growth-plan`](skills/tiktok-growth-plan/SKILL.md) | 已有公开账号链接、目标类目、国家/地区和商业目标，需要判断适配度并制定 30 天增长路线时使用。 |
 
 ### `tiktok-shop-operator`
 
-面向 TikTok Shop 卖家、运营人员和内容团队的运营 Skill，覆盖：
-
-- 商品趋势与选品研究
-- 店铺和竞品分析
-- 爆款带货视频发现
-- 达人筛选与匹配
-- TikTok 视频字幕提取
-- 商品、店铺、视频和达人的关联分析
-- 基于数据证据的行动方案生成
+面向 TikTok Shop 卖家、运营人员和内容团队，覆盖商品趋势与选品研究、店铺和竞品分析、爆款带货视频发现、达人匹配、字幕提取，以及商品、店铺、视频和达人的关联分析。
 
 它不会自行购买套餐、联系达人或发布内容。它负责研究、分析、生成建议和执行方案，真实的外部动作仍需要用户单独确认。
 
-## MCP 与 Skill 如何配合
+## 数据来源、层级与限制
 
 | 组成 | 负责什么 |
 | --- | --- |
@@ -49,7 +49,17 @@
 
 > MCP 给 Agent 数据和工具，Skill 给 Agent TikTok Shop 的运营方法。
 
-没有 MCP，Skill 无法获得真实的 TikTok 数据；没有 Skill，Agent 仍然可以调用 MCP，但复杂任务的流程、排序、核验和输出不够稳定。
+账号和类目相关 Skills 采用以下数据层级：
+
+1. **MCP 优先。** 先读取已连接 KSS MCP 的实时 schema，并使用其实际提供的工具和字段；实时 schema 始终优先于仓库参考。
+2. **浏览器降级。** 当账号 MCP 工具不可用、失败、为空或关键字段不足时，只读取浏览器中可见的公开 TikTok 主页和视频页。遇到登录、验证码、反爬、地域或访问限制即停止，并记录原因。
+3. **公开数据边界。** 只分析公开可访问的信息，不绕过访问控制，也不把搜索摘要、记忆或缺失字段当作已获取的 TikTok 数据。
+
+`creator_profile` 和 `creator_videos` 不是仓库承诺一定可用的固定接口：它们是否实际可调用、有哪些参数和返回字段，取决于当前连接的 KSS MCP schema。Agent 会先检查可用性；不可用时按上述规则降级或明确报告限制，不会猜测工具 schema。
+
+所有结果都会按证据完整性标注 A/B/C 可信度：**A** 表示关键结论有完整、可比且可追溯的多层证据；**B** 表示证据可用但存在披露的覆盖或字段限制；**C** 表示只能给出范围有限的初步观察或部分报告。缺少会改变账号类型、进入判断、定位或首要行动的信息时，Agent 会在完成允许的重试、分页和公开浏览器降级后，**一次只问一个最关键的问题**，并说明该缺失会影响什么。
+
+没有 MCP，商品和店铺 Skills 无法获得真实的 KSS 数据；没有 Skill，Agent 仍可调用 MCP，但复杂任务的流程、排序、核验、数据完整性和输出稳定性会下降。
 
 ## 核心能力
 
@@ -91,6 +101,22 @@
 
 > 使用 $tiktok-shop-operator 从选品开始，完成店铺、爆款视频、达人和字幕分析，最后生成一份 TikTok Shop 运营行动方案。
 
+### 账号与增长：可直接复制
+
+```text
+分析这个公开 TikTok 竞争对手账号，找出它的内容支柱、爆款公式和未来 7 天可以改进的动作：<账号链接>
+```
+
+```text
+研究美国区宠物用品类目，分析商品、店铺、爆款视频和达人，并生成 30 天运营方案。
+```
+
+```text
+分析这个账号是否适合做美国区家居类目，并生成从定位到选品、内容和达人合作的 30 天计划：<账号链接>
+```
+
+第二个示例会触发 `$tiktok-category-strategy`；第三个示例会触发 `$tiktok-growth-plan`。增长计划还需要明确商业目标；如果示例中尚未说明，Agent 会先只追问这一项。
+
 Agent 会在结果中说明查询地区、统计周期、筛选条件、排序方式、分页范围、结果数量和完整性。
 
 ## 快速开始
@@ -104,11 +130,11 @@ git clone https://github.com/aronhy/tiktok-agent-skills.git
 cd tiktok-agent-skills
 ```
 
-复制 Skill 到 Codex Skills 目录：
+复制所需 Skill 到 Codex Skills 目录（可全部复制）：
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R skills/tiktok-shop-operator ~/.codex/skills/
+cp -R skills/tiktok-shop-operator skills/tiktok-account-audit skills/tiktok-category-strategy skills/tiktok-growth-plan ~/.codex/skills/
 ```
 
 重新启动或刷新 Codex，使 Skill 被发现。
@@ -142,7 +168,10 @@ cp -R skills/tiktok-shop-operator ~/.codex/skills/
 
 | 文件 | 用途 |
 | --- | --- |
-| [SKILL.md](skills/tiktok-shop-operator/SKILL.md) | Agent 的核心触发条件、执行规则和安全边界 |
+| [`tiktok-shop-operator`](skills/tiktok-shop-operator/SKILL.md) | 商品、店铺、视频、达人、字幕和商品运营闭环 |
+| [`tiktok-account-audit`](skills/tiktok-account-audit/SKILL.md) | 公开账号诊断、内容分析与未来 7 天行动 |
+| [`tiktok-category-strategy`](skills/tiktok-category-strategy/SKILL.md) | 指定市场与类目的商品、内容、达人和进入策略研究 |
+| [`tiktok-growth-plan`](skills/tiktok-growth-plan/SKILL.md) | 账号能力与类目机会匹配、定位和 30 天增长计划 |
 | [MCP 工具参考](skills/tiktok-shop-operator/references/mcp-tools.md) | KSS MCP 工具、参数、返回字段、限流和关联规则 |
 | [运营工作流](skills/tiktok-shop-operator/references/workflows.md) | 选品、店铺、视频、达人、字幕和完整运营闭环 |
 | [输出模板](skills/tiktok-shop-operator/references/output-templates.md) | 商品、店铺、视频、达人、字幕和行动建议格式 |
