@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok 增长计划"
+  short_description: "匹配账号能力与类目机会，生成 30 天增长行动计划"
+  default_prompt: "使用 $tiktok-growth-plan 分析我的账号与目标类目并制定 30 天增长计划。"
