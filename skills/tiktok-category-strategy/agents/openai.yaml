@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok 类目策略"
+  short_description: "研究目标类目、竞品、商品、内容与达人机会，生成可追溯的运营策略。"
+  default_prompt: "使用 $tiktok-category-strategy 研究这个类目并生成 30 天运营方案。"
