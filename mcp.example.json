@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "kss-caption": {
+      "type": "streamable-http",
+      "url": "https://mcp.kolsprite.com/caption/mcp",
+      "headers": {
+        "secret-key": "${KSS_MCP_KEY}"
+      }
+    },
+    "kss-universal": {
+      "type": "streamable-http",
+      "url": "https://mcp.kolsprite.com/universal/mcp",
+      "headers": {
+        "secret-key": "${KSS_MCP_KEY}"
+      }
+    }
+  }
+}

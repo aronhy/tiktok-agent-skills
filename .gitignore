@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+mcp.local.json
+**/mcp.local.json
+results/
+*.result.json
+*.results.json
+.venv/
+.validation-deps/
+__pycache__/

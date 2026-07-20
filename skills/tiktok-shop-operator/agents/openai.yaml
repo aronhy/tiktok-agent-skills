@@ -1,0 +1,20 @@
+interface:
+  display_name: "TikTok Shop Operator"
+  short_description: "用 KSS MCP 完成 TikTok Shop 选品与达人运营"
+  default_prompt: "Use $tiktok-shop-operator to research a TikTok Shop opportunity and return an evidence-based action plan."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "kss-universal"
+      description: "KSS product, shop, video, and creator search"
+      transport: "streamable_http"
+      url: "https://mcp.kolsprite.com/universal/mcp"
+    - type: "mcp"
+      value: "kss-caption"
+      description: "KSS TikTok video caption extraction"
+      transport: "streamable_http"
+      url: "https://mcp.kolsprite.com/caption/mcp"
+
+policy:
+  allow_implicit_invocation: true
