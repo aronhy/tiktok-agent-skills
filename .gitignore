@@ -10,3 +10,4 @@ results/
 .venv/
 .validation-deps/
 __pycache__/
+.worktrees/
