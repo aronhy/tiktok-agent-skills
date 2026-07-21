@@ -3,9 +3,9 @@
 ## 1. 输入规范化
 
 1. 保留原始 URL。解析时 host 必须是 `tiktok.com` 或其子域名（大小写不敏感）；任何其他 host 一律拒绝，不因 URL 文本含有 “tiktok” 而接受。
-2. 若 URL 已是 canonical profile，移除查询参数和片段后，路径必须**恰好**为 `/@handle`：`handle` 为单个非空、未编码的 `[A-Za-z0-9._-]+` path segment。将 `@` 后的原样 Handle 作为规范化 Handle，并将 `https://www.tiktok.com/@handle` 作为规范化主页 URL。
+2. 若 URL 已是 canonical profile，移除查询参数和片段后，路径必须**恰好**为 `/@handle` 或 `/@handle/`：`handle` 为单个非空、未编码的 `[A-Za-z0-9._-]+` path segment。允许的末尾单个 `/` 只用于输入兼容，规范化时必须移除。将 `@` 后的原样 Handle 作为规范化 Handle，并将 `https://www.tiktok.com/@handle` 作为规范化主页 URL。
 3. 对 TikTok-owned 的公开短链（包括短链子域名或非 `/@handle` 的短码路径），使用浏览器仅跟随公开重定向。只有最终 URL 仍是 TikTok-owned host 且满足第 2 条时才接受；浏览器无法解析、需要登录/验证码或最终为其他路径时，拒绝并只问一个问题，请用户提供该账号的 canonical `/@handle` 主页链接。
-4. 明确拒绝任何视频/帖子、店铺、搜索、标签、登录或其他非 `/@handle` 路径，即使它们位于 TikTok-owned host。不要从昵称、视频作者名或 URL 相邻文字猜测 Handle。
+4. 明确拒绝任何视频/帖子、店铺、搜索、标签、登录，或除 `/@handle` 与 `/@handle/` 外的其他路径，即使它们位于 TikTok-owned host。不要从昵称、视频作者名或 URL 相邻文字猜测 Handle。
 5. 对每个已接受账号记录原始 URL、规范化主页 URL 和规范化 Handle。记录可选的市场、日期窗口、最大视频数、运营目标和对标账号。
 
 ## 2. 工具可用性发现

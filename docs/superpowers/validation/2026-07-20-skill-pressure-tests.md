@@ -1,6 +1,6 @@
 # TikTok Skill 压力测试：RED 基线与 GREEN 复测标准
 
-**日期：** 2026-07-20  
+**日期：** 2026-07-20
 **范围：** 新增 `tiktok-account-audit`、`tiktok-category-strategy` 与 `tiktok-growth-plan` 之前的 RED 基线，以及加载这些 Skill 后的 GREEN 复测。
 **目的：** 固化未加载新 Skill 时的 RED 结果，并记录同提示词在实施后满足可判定 GREEN 标准的证据。
 
