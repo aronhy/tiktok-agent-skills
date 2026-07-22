@@ -143,6 +143,8 @@ cp -R skills/tiktok-shop-operator skills/tiktok-account-audit skills/tiktok-cate
 
 复制 [mcp.example.json](mcp.example.json) 中的配置到本地 MCP 配置文件。
 
+KSS 的 API、参数和返回字段说明可查看：[达人精灵 API 文档](https://o.kolsprite.com/doc/api.html)。仓库中的 Skill 会负责把这些工具组合成运营流程，实时可用的工具和字段仍以当前 MCP schema 与官方文档为准。
+
 示例中的 `${KSS_MCP_KEY}` 是占位符。请只在本地副本中替换为管理员发放的真实 MCP Key，不要修改并提交仓库中的示例文件。
 
 | MCP 服务 | Endpoint | 能力 |
