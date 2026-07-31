@@ -1,6 +1,6 @@
 # TikTok Agent Skills
 
-> 通过 Codex + KSS MCP，用自然语言完成 TikTok Shop 商品运营和公开账号增长研究，并把可追溯的数据证据转成行动方案。
+> 通过 Codex + KSS MCP，用自然语言完成 TikTok Shop 商品运营、公开账号增长研究和内容驱动的私域获客，并把可追溯的数据证据转成行动方案。
 
 这个项目把 TikTok 运营中反复进行的数据查询、账号诊断和策略规划，整理成可被 Agent 直接执行的 Skills。你不需要记住 MCP 工具名和参数，只需要描述业务目标；Agent 会选择合适的 Skill、组织查询、标记数据限制并给出下一步建议。
 
@@ -139,7 +139,7 @@
 使用 $tiktok-lead-generation-operator 改造这个公开 TikTok 账号：<账号链接>。目标市场是新加坡，服务是企业 AI 培训，目标客户是 100–500 人公司的运营负责人，期望客户填写主页表单申请咨询。请复用公开账号诊断，区分公开证据与私域数据缺口，并设计内容、CTA、线索承接和 KPI。
 ```
 
-Agent 会在结果中说明查询地区、统计周期、筛选条件、排序方式、分页范围、结果数量和完整性。
+当任务实际执行数据查询时，Agent 会在结果中说明查询地区、统计周期、筛选条件、排序方式、分页范围、结果数量和完整性。
 
 ## 快速开始
 
@@ -159,11 +159,11 @@ mkdir -p ~/.codex/skills
 cp -R skills/tiktok-shop-operator skills/tiktok-account-audit skills/tiktok-category-strategy skills/tiktok-growth-plan skills/tiktok-lead-generation-operator ~/.codex/skills/
 ```
 
-如果只需要内容获客 Skill：
+如果只需要内容获客能力（同时支持从零和已有账号模式），请一并安装内容获客 Skill 及其用于已有账号公开证据诊断的 `tiktok-account-audit`：
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R skills/tiktok-lead-generation-operator ~/.codex/skills/
+cp -R skills/tiktok-lead-generation-operator skills/tiktok-account-audit ~/.codex/skills/
 ```
 
 重新启动或刷新 Codex，使 Skill 被发现。
