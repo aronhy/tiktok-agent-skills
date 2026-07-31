@@ -4,14 +4,15 @@
 
 这个项目把 TikTok 运营中反复进行的数据查询、账号诊断和策略规划，整理成可被 Agent 直接执行的 Skills。你不需要记住 MCP 工具名和参数，只需要描述业务目标；Agent 会选择合适的 Skill、组织查询、标记数据限制并给出下一步建议。
 
-## 两条完整运营闭环
+## 三条完整运营闭环
 
 ```text
 商品运营：选品 → 店铺 → 视频 → 达人 → 字幕 → 行动方案
 账号增长：账号链接 → 账号诊断 → 类目研究 → 差距匹配 → 30 天计划
+内容获客：业务简报 → 从零建号或账号诊断 → 内容实验 → 单一 CTA → 私域承接 → 线索复盘
 ```
 
-两条闭环可以独立使用，也可以由增长计划串联：先诊断一个公开账号，再研究目标市场中的目标类目，最后生成受证据和已知资源约束的 30 天计划。
+三条闭环可以独立使用。增长计划可以串联公开账号诊断与类目研究；商品运营服务 TikTok Shop 站内商品销售，内容获客则服务咨询、预约、表单提交或进入指定私域渠道等线索目标。Shop 交易路径与私域线索路径始终分别规划、分别测量。
 
 例如，当你提供一个商品或选品方向后，Agent 可以：
 
@@ -30,12 +31,19 @@
 | [`tiktok-account-audit`](skills/tiktok-account-audit/SKILL.md) | 提供公开 TikTok 账号主页链接，需要诊断账号、竞品、内容表现或增长机会时使用。 |
 | [`tiktok-category-strategy`](skills/tiktok-category-strategy/SKILL.md) | 已明确目标类目和国家/地区，需要研究市场、商品、店铺、内容、达人与进入策略时使用。 |
 | [`tiktok-growth-plan`](skills/tiktok-growth-plan/SKILL.md) | 已有公开账号链接、目标类目、国家/地区和商业目标，需要判断适配度并制定 30 天增长路线时使用。 |
+| [`tiktok-lead-generation-operator`](skills/tiktok-lead-generation-operator/SKILL.md) | 需要从零搭建或改造现有 TikTok 账号，以内容获取咨询、预约、表单或私域渠道有效线索时使用。 |
 
 ### `tiktok-shop-operator`
 
 面向 TikTok Shop 卖家、运营人员和内容团队，覆盖商品趋势与选品研究、店铺和竞品分析、爆款带货视频发现、达人匹配、字幕提取，以及商品、店铺、视频和达人的关联分析。
 
 它不会自行购买套餐、联系达人或发布内容。它负责研究、分析、生成建议和执行方案，真实的外部动作仍需要用户单独确认。
+
+### `tiktok-lead-generation-operator`
+
+面向以内容获客而非 TikTok Shop 成交为主要目标的团队。它先依次确认目标市场、产品或服务、目标客户、期望私域动作及渠道，再选择从零模式或复用公开账号诊断，设计内容、单一 CTA、渠道承接、资格判断、跟进草稿和可追溯漏斗。
+
+它支持 TikTok 私信、WhatsApp、微信、Telegram、email、表单和预约链接，但只交付规划与可审核草稿，不抓取联系人、不自动外联，也不改动外部账号。若同时存在 Shop 销售和线索目标，两个路径会保持独立，并在影响取舍时先确认主要业务结果。
 
 ## 数据来源、层级与限制
 
@@ -117,6 +125,20 @@
 
 第二个示例会触发 `$tiktok-category-strategy`；第三个示例会触发 `$tiktok-growth-plan`。增长计划还需要明确商业目标；如果示例中尚未说明，Agent 会先只追问这一项。
 
+### 内容获客：可直接复制
+
+从零搭建：
+
+```text
+使用 $tiktok-lead-generation-operator 从零设计一个美国 TikTok 内容获客账号：服务是 Shopify 运营咨询，目标客户是年销售额 50–500 万美元的 DTC 品牌创始人，期望客户通过主页 Calendly 链接预约诊断。请给出主页架构、内容实验、单一 CTA、资格判断、承接草稿和 30 天测量计划。
+```
+
+改造现有账号：
+
+```text
+使用 $tiktok-lead-generation-operator 改造这个公开 TikTok 账号：<账号链接>。目标市场是新加坡，服务是企业 AI 培训，目标客户是 100–500 人公司的运营负责人，期望客户填写主页表单申请咨询。请复用公开账号诊断，区分公开证据与私域数据缺口，并设计内容、CTA、线索承接和 KPI。
+```
+
 Agent 会在结果中说明查询地区、统计周期、筛选条件、排序方式、分页范围、结果数量和完整性。
 
 ## 快速开始
@@ -134,7 +156,14 @@ cd tiktok-agent-skills
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R skills/tiktok-shop-operator skills/tiktok-account-audit skills/tiktok-category-strategy skills/tiktok-growth-plan ~/.codex/skills/
+cp -R skills/tiktok-shop-operator skills/tiktok-account-audit skills/tiktok-category-strategy skills/tiktok-growth-plan skills/tiktok-lead-generation-operator ~/.codex/skills/
+```
+
+如果只需要内容获客 Skill：
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R skills/tiktok-lead-generation-operator ~/.codex/skills/
 ```
 
 重新启动或刷新 Codex，使 Skill 被发现。
@@ -172,6 +201,10 @@ cp -R skills/tiktok-shop-operator skills/tiktok-account-audit skills/tiktok-cate
 | [`tiktok-account-audit`](skills/tiktok-account-audit/SKILL.md) | 公开账号诊断、内容分析与未来 7 天行动 |
 | [`tiktok-category-strategy`](skills/tiktok-category-strategy/SKILL.md) | 指定市场与类目的商品、内容、达人和进入策略研究 |
 | [`tiktok-growth-plan`](skills/tiktok-growth-plan/SKILL.md) | 账号能力与类目机会匹配、定位和 30 天增长计划 |
+| [`tiktok-lead-generation-operator`](skills/tiktok-lead-generation-operator/SKILL.md) | 从零或现有账号的内容获客、私域承接与线索转化规划 |
+| [内容获客 UI 元数据](skills/tiktok-lead-generation-operator/agents/openai.yaml) | Skill 展示名称、简介与默认提示词 |
+| [内容获客工作流](skills/tiktok-lead-generation-operator/references/workflow.md) | 输入门槛、模式选择、漏斗、承接、测量与执行边界 |
+| [内容获客报告模板](skills/tiktok-lead-generation-operator/references/report-template.md) | 固定十二节的获客方案输出结构 |
 | [MCP 工具参考](skills/tiktok-shop-operator/references/mcp-tools.md) | KSS MCP 工具、参数、返回字段、限流和关联规则 |
 | [运营工作流](skills/tiktok-shop-operator/references/workflows.md) | 选品、店铺、视频、达人、字幕和完整运营闭环 |
 | [输出模板](skills/tiktok-shop-operator/references/output-templates.md) | 商品、店铺、视频、达人、字幕和行动建议格式 |
