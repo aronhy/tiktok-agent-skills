@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok 内容获客运营"
+  short_description: "设计 TikTok 内容获客、私域承接与线索转化运营方案。"
+  default_prompt: "使用 $tiktok-lead-generation-operator 设计一个 TikTok 内容获客和私域承接方案。"
