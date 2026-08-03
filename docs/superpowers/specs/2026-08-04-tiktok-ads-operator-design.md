@@ -1,7 +1,7 @@
 # TikTok Ads Operator Design
 
-**Date:** 2026-08-04  
-**Status:** Approved for direct implementation  
+**Date:** 2026-08-04
+**Status:** Approved for direct implementation
 **Target:** `skills/tiktok-ads-operator`
 
 ## Purpose
