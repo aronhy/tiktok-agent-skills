@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok Ads Operator"
+  short_description: "Audit, plan, optimize, and safely execute TikTok Ads"
+  default_prompt: "Use $tiktok-ads-operator to audit or plan this TikTok Ads account and show any proposed changes before execution."
