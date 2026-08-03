@@ -128,6 +128,8 @@ Maintain distinct definitions for impressions, clicks, landing-page events, lead
 - aligned statistics and attribution windows;
 - compatible event definitions and attribution settings.
 
+If any condition is incompatible or missing, refuse the ratio and request aligned inputs. Never calculate or display illustrative, rough, or proxy arithmetic from incompatible inputs, even when labeling it non-comparable.
+
 Record source system, timezone, currency, data level, date range, attribution window, pagination or completeness, and join method. Do not call a paid spend-to-Organic result, Shop GMV, or private-lead count a unified ROAS, CPA, or conversion rate without an explicit compatible measurement contract.
 
 ## 11. Current-schema and current-documentation rule
