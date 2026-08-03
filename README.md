@@ -2,6 +2,8 @@
 
 > 通过 Codex + KSS MCP，用自然语言完成 TikTok Shop 商品运营、公开账号增长研究和内容驱动的私域获客，并把可追溯的数据证据转成行动方案。
 
+作者：[X / Twitter @aronhouyu](https://x.com/aronhouyu)
+
 这个项目把 TikTok 运营中反复进行的数据查询、账号诊断和策略规划，整理成可被 Agent 直接执行的 Skills。你不需要记住 MCP 工具名和参数，只需要描述业务目标；Agent 会选择合适的 Skill、组织查询、标记数据限制并给出下一步建议。
 
 ## 三条完整运营闭环
