@@ -52,6 +52,8 @@ Use **A** for directly supported and complete evidence, **B** for supported but 
 
 Before selecting a tool or field, inspect the available tools, permissions, advertiser access, and live schemas. Map only capabilities actually exposed at runtime to these logical operations:
 
+If a request directs use of an assumed tool or asks to fill unspecified fields with defaults, begin the response by stating that capability and live-schema discovery is required. Do this before describing missing plan inputs, a parameter draft, or a manual fallback.
+
 | Logical operation | Required discovery | Compatible fallback |
 | --- | --- | --- |
 | Discover advertiser accounts | Account-list capability and access scope | Ask for account export or account identifier |
